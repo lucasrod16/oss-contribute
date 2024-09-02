@@ -1,0 +1,11 @@
+[build]
+cmd = "make build"
+bin = "./bin/api"
+include_dir = ["ui", "pkg"]
+exclude_dir = ["ui/node_modules", "ui/build"]
+include_ext = ["go", "tpl", "tmpl", "html", "css", "js", "ts", "tsx"]
+
+[proxy]
+enabled = true
+app_port = 8080
+proxy_port = 8081

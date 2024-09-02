@@ -1,0 +1,78 @@
+package main
+
+import (
+	"context"
+	"embed"
+	"io/fs"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	osscontribute "github.com/lucasrod16/oss-contribute/pkg"
+)
+
+//go:embed ui/build/*
+//go:embed ui/build/static/*
+var ui embed.FS
+
+func main() {
+	fs, err := fs.Sub(ui, "ui/build")
+	if err != nil {
+		log.Fatalf("failed to load UI assets: %v", err)
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	f := osscontribute.NewFetcher()
+
+	ticker := time.NewTicker(24 * time.Hour)
+	defer ticker.Stop()
+
+	go func() {
+		for {
+			select {
+			case <-ctx.Done():
+				log.Fatal(ctx.Err())
+			case <-ticker.C:
+				if err := f.RepoData(ctx); err != nil {
+					log.Printf("Error fetching GitHub repo data: %v", err)
+				}
+			}
+		}
+	}()
+
+	// initial fetch on startup
+	if err := f.RepoData(ctx); err != nil {
+		log.Fatal(err)
+	}
+
+	mux := http.NewServeMux()
+	mux.Handle("/", http.FileServer(http.FS(fs)))
+	mux.Handle("/repos", osscontribute.GetRepos(f))
+
+	server := &http.Server{
+		Addr:    "0.0.0.0:8080",
+		Handler: mux,
+	}
+
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
+
+	go func() {
+		log.Println("API server listening on port 8080")
+		if err := server.ListenAndServe(); err != http.ErrServerClosed {
+			log.Fatal(err)
+		}
+	}()
+
+	<-shutdown
+	log.Println("Shutting down server...")
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatal(err)
+	}
+	log.Println("Server gracefully shutdown")
+}
