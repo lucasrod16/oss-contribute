@@ -17,3 +17,9 @@ OSS Contribute searches for projects based on the following criteria to ensure y
 Find your next project to grow your skills and connect with talented people all over the world.
 
 <https://osscontribute.com/>
+
+## Contributing
+
+Contributions are welcome!
+
+If you have an idea for a new feature or find a bug that needs to be fixed, feel free to submit issues and pull requests.
