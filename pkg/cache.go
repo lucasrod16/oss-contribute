@@ -54,7 +54,7 @@ func (c *Cache) RepoData(ctx context.Context) error {
 
 	data, err := io.ReadAll(r)
 	if err != nil {
-		return fmt.Errorf("error reading GitHub data from GCS bucket: %s", bucket)
+		return fmt.Errorf("error reading GitHub data from GCS bucket %q: %w", bucket, err)
 	}
 
 	c.Set(data)
