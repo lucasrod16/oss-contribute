@@ -4,14 +4,14 @@ import (
 	"net/http"
 )
 
-func GetRepos(f *Fetcher) http.HandlerFunc {
+func GetRepos(c *Cache) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
 			http.Error(w, "405 Method Not Allowed\n", http.StatusMethodNotAllowed)
 			return
 		}
 
-		data, timestamp := f.Cache.Get()
+		data, timestamp := c.Get()
 		if data == nil {
 			http.Error(w, "No data found in cache\n", http.StatusInternalServerError)
 			return

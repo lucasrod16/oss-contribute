@@ -10,6 +10,11 @@ provider "google" {
   region  = "us-central1"
 }
 
+variable "image_version" {
+  description = "The version of the container image"
+  type        = string
+}
+
 resource "google_cloud_run_v2_service" "oss_contribute" {
   name                = "oss-contribute"
   location            = "us-central1"
@@ -17,7 +22,7 @@ resource "google_cloud_run_v2_service" "oss_contribute" {
 
   template {
     containers {
-      image = "lucasrod96/oss-contribute:v0.0.3"
+      image = "lucasrod96/oss-contribute:${var.image_version}"
     }
   }
 }
