@@ -1,0 +1,30 @@
+name: Write GitHub Data To Google Cloud Storage
+
+on:
+  schedule:
+    - cron: "15 0 * * *"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  github-to-gcs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Setup Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
+        with:
+          go-version-file: go.mod
+
+      - name: Google Cloud Auth
+        uses: google-github-actions/auth@62cf5bd3e4211a0a0b51f2c6d6a37129d828611d # v2.1.5
+        with:
+          project_id: "groovy-momentum-434802-g9"
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Run CronJob
+        run: go run cmd/cronjob/main.go

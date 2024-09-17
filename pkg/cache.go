@@ -1,8 +1,19 @@
 package osscontribute
 
 import (
+	"context"
+	"fmt"
+	"io"
+	"log"
 	"sync"
 	"time"
+
+	"cloud.google.com/go/storage"
+)
+
+const (
+	jsonFile = "data.json"
+	bucket   = "lucasrod16-github-data"
 )
 
 type Cache struct {
@@ -26,4 +37,27 @@ func (c *Cache) Get() ([]byte, time.Time) {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 	return c.data, c.timestamp
+}
+
+func (c *Cache) RepoData(ctx context.Context) error {
+	gcsClient, err := storage.NewClient(ctx, storage.WithJSONReads())
+	if err != nil {
+		return fmt.Errorf("failed to create GCS client: %w", err)
+	}
+	defer gcsClient.Close()
+
+	r, err := gcsClient.Bucket(bucket).Object(jsonFile).NewReader(ctx)
+	if err != nil {
+		return fmt.Errorf("error creating GCS reader: %w", err)
+	}
+	defer r.Close()
+
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return fmt.Errorf("error reading GitHub data from GCS bucket: %s", bucket)
+	}
+
+	c.Set(data)
+	log.Println("Successfully loaded GitHub data from GCS bucket into the in-memory cache.")
+	return nil
 }

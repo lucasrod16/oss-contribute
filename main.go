@@ -27,9 +27,9 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	f := osscontribute.NewFetcher()
+	c := osscontribute.NewCache()
 
-	ticker := time.NewTicker(24 * time.Hour)
+	ticker := time.NewTicker(12 * time.Hour)
 	defer ticker.Stop()
 
 	go func() {
@@ -38,7 +38,7 @@ func main() {
 			case <-ctx.Done():
 				log.Fatal(ctx.Err())
 			case <-ticker.C:
-				if err := f.RepoData(ctx); err != nil {
+				if err := c.RepoData(ctx); err != nil {
 					log.Printf("Error fetching GitHub repo data: %v", err)
 				}
 			}
@@ -46,13 +46,13 @@ func main() {
 	}()
 
 	// initial fetch on startup
-	if err := f.RepoData(ctx); err != nil {
+	if err := c.RepoData(ctx); err != nil {
 		log.Fatal(err)
 	}
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.FS(fs)))
-	mux.Handle("/repos", osscontribute.GetRepos(f))
+	mux.Handle("/repos", osscontribute.GetRepos(c))
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",

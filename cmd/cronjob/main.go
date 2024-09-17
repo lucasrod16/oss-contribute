@@ -1,21 +1,24 @@
-package osscontribute
+package main
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
-	"os"
 	"slices"
 	"strings"
 	"time"
 
+	"cloud.google.com/go/storage"
 	"github.com/google/go-github/v64/github"
 )
 
-const jsonFile = "data.json"
+const (
+	jsonFile = "data.json"
+	bucket   = "lucasrod16-github-data"
+)
 
-type Repo struct {
+type repo struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Owner       string `json:"owner"`
@@ -25,42 +28,13 @@ type Repo struct {
 	Stars       int    `json:"stars"`
 }
 
-type Fetcher struct {
-	Client *github.Client
-	Cache  *Cache
-}
+func main() {
+	ctx := context.Background()
+	client := github.NewClient(nil)
 
-func NewFetcher() *Fetcher {
-	return &Fetcher{
-		Client: github.NewClient(nil),
-		Cache:  NewCache(),
-	}
-}
-
-func (f *Fetcher) RepoData(ctx context.Context) error {
-	// check if there is existing data on disk to load from on boot.
-	// only log if there is an error since this could be the first boot.
-	fi, err := os.Stat(jsonFile)
+	licenses, err := licenseKeys(ctx, client)
 	if err != nil {
-		log.Println(err)
-	}
-
-	// cache JSON data if less than 24 hours old.
-	// only log the error since this is a best effort attempt.
-	if err == nil && time.Since(fi.ModTime()) < 24*time.Hour {
-		data, err := os.ReadFile(jsonFile)
-		if err != nil {
-			log.Println(err)
-		} else {
-			f.Cache.Set(data)
-			log.Println("Loaded existing, valid data into the cache. Skipping fetch...")
-			return nil
-		}
-	}
-
-	licenses, err := f.licenseKeys(ctx)
-	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	const baseQuery = "is:public archived:false good-first-issues:>=10 help-wanted-issues:>=10 stars:>=500"
@@ -69,24 +43,23 @@ func (f *Fetcher) RepoData(ctx context.Context) error {
 
 	// Map to deduplicate repos
 	// https://github.com/orgs/community/discussions/24361
-	repoMap := make(map[string]Repo)
+	repoMap := make(map[string]repo)
 
 	log.Println("fetching GitHub repo data...")
 	for page := 1; ; page++ {
 		opts.Page = page
 		opts.PerPage = 100
 
-		result, resp, err := f.Client.Search.Repositories(ctx, query, opts)
+		result, resp, err := client.Search.Repositories(ctx, query, opts)
 		if err != nil {
-			return fmt.Errorf("error searching repos: %w", err)
+			log.Fatalf("error searching repos: %v", err)
 		}
-
 		if len(result.Repositories) == 0 {
-			break
+			log.Fatal("unexpected error: no GitHub repositories found matching the specified search criteria")
 		}
 
 		for _, githubRepo := range result.Repositories {
-			repo := Repo{
+			repo := repo{
 				Name:        githubRepo.GetName(),
 				Description: githubRepo.GetDescription(),
 				Owner:       *githubRepo.Owner.Login,
@@ -103,45 +76,40 @@ func (f *Fetcher) RepoData(ctx context.Context) error {
 		}
 	}
 
-	var uniqueRepos []Repo
+	var uniqueRepos []repo
 	for _, repo := range repoMap {
 		uniqueRepos = append(uniqueRepos, repo)
 	}
 
 	// Sort repos by stars in descending order
-	slices.SortStableFunc(uniqueRepos, func(a, b Repo) int {
+	slices.SortStableFunc(uniqueRepos, func(a, b repo) int {
 		return b.Stars - a.Stars
 	})
 
 	data, err := json.MarshalIndent(uniqueRepos, "", "  ")
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
-	tmpfile, err := os.CreateTemp(".", "data-*.json")
+	gcsClient, err := storage.NewClient(ctx)
 	if err != nil {
-		return err
+		log.Fatalf("failed to create GCS client: %v", err)
 	}
-	defer os.Remove(tmpfile.Name())
+	defer gcsClient.Close()
 
-	if _, err := tmpfile.Write(data); err != nil {
-		return err
+	w := gcsClient.Bucket(bucket).Object(jsonFile).NewWriter(ctx)
+	if _, err := w.Write(data); err != nil {
+		log.Fatalf("GCS Write error: %v", err)
 	}
-	tmpfile.Close()
-
-	if err := os.Rename(tmpfile.Name(), jsonFile); err != nil {
-		return err
+	if err := w.Close(); err != nil {
+		log.Fatalf("error closing GCS writer: %v", err)
 	}
 
-	f.Cache.Set(data)
-
-	log.Println("Successfully fetched and cached GitHub repo data")
-
-	return nil
+	log.Printf("Successfully fetched and stored GitHub repo data to GCS bucket: %s", bucket)
 }
 
-func (f *Fetcher) licenseKeys(ctx context.Context) (string, error) {
-	licenses, _, err := f.Client.Licenses.List(ctx)
+func licenseKeys(ctx context.Context, client *github.Client) (string, error) {
+	licenses, _, err := client.Licenses.List(ctx)
 	if err != nil {
 		return "", fmt.Errorf("unable to list licenses: %w", err)
 	}
