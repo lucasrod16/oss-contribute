@@ -1,5 +1,5 @@
 [build]
-cmd = "make build"
+cmd = "go build -o ./bin/api"
 bin = "./bin/api"
 include_dir = ["ui", "pkg"]
 exclude_dir = ["ui/node_modules", "ui/build"]
