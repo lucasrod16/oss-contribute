@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-cd ui && npm ci --legacy-peer-deps && npm run build
-cd - || exit 1
+npm --prefix=ui ci
+npm --prefix=ui run build
 
 GOOS=linux GOARCH=amd64 go build -o ./bin/api
 
