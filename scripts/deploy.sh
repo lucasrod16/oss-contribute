@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-cd ui && npm run build
+cd ui && npm ci --legacy-peer-deps && npm run build
 cd - || exit 1
 
 GOOS=linux GOARCH=amd64 go build -o ./bin/api
