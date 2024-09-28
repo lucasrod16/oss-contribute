@@ -5,10 +5,9 @@ set -euo pipefail
 npm --prefix=ui ci
 npm --prefix=ui run build
 
-GOOS=linux GOARCH=amd64 go build -o ./bin/api
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./bin/api
 
 echo "${DOCKER_PASSWORD}" | docker login --username="${DOCKER_USERNAME}" --password-stdin
-ls -lah ./bin/api
 docker buildx build --no-cache --platform="linux/amd64" --push -t "lucasrod96/oss-contribute:${IMAGE_VERSION}" .
 
 terraform init
