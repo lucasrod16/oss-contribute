@@ -33,7 +33,3 @@ resource "google_cloud_run_v2_service_iam_member" "noauth" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
-
-output "service_url" {
-  value = google_cloud_run_v2_service.oss_contribute.uri
-}
