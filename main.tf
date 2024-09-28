@@ -22,7 +22,7 @@ resource "google_cloud_run_v2_service" "oss_contribute" {
 
   template {
     containers {
-      image = "lucasrod96/oss-contribute:${var.image_digest}"
+      image = "lucasrod96/oss-contribute@${var.image_digest}"
     }
   }
 }
