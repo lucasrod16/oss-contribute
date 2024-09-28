@@ -1,0 +1,27 @@
+name: Deploy Website
+
+on:
+  push:
+    tags:
+      - v*
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+
+      - name: Google Cloud Auth
+        uses: google-github-actions/auth@62cf5bd3e4211a0a0b51f2c6d6a37129d828611d # v2.1.5
+        with:
+          project_id: "groovy-momentum-434802-g9"
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Deploy
+        env:
+          IMAGE_VERSION: ${{ github.ref_name }}
+        run: ./scripts/deploy.sh
