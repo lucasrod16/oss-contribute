@@ -6,6 +6,8 @@ cd ui && npm ci --legacy-peer-deps && npm run build
 cd - || exit 1
 
 GOOS=linux GOARCH=amd64 go build -o ./bin/api
+
+docker login --username="${DOCKER_USERNAME}" --password="${DOCKER_PASSWORD}"
 docker buildx build --platform="linux/amd64" --push -t "lucasrod96/oss-contribute:${IMAGE_VERSION}" .
 
 terraform init
