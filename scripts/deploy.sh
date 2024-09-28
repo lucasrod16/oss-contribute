@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -e
-
-IMAGE_VERSION="v0.0.5"
+set -euo pipefail
 
 cd ui && npm run build
 cd - || exit 1
