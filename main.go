@@ -15,7 +15,6 @@ import (
 )
 
 //go:embed ui/build/*
-//go:embed ui/build/static/*
 var ui embed.FS
 
 func main() {
