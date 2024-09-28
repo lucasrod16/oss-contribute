@@ -10,8 +10,8 @@ provider "google" {
   region  = "us-central1"
 }
 
-variable "image_version" {
-  description = "The version of the container image"
+variable "image_digest" {
+  description = "The digest of the container image"
   type        = string
 }
 
@@ -22,7 +22,7 @@ resource "google_cloud_run_v2_service" "oss_contribute" {
 
   template {
     containers {
-      image = "lucasrod96/oss-contribute:${var.image_version}"
+      image = "lucasrod96/oss-contribute:${var.image_digest}"
     }
   }
 }
