@@ -28,3 +28,6 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: ./scripts/deploy.sh
+
+      - name: Create GitHub Release
+        run: gh release create ${{ github.ref_name }} --verify-tag --notes-from-tag
