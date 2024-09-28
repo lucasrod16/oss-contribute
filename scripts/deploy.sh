@@ -6,6 +6,7 @@ npm --prefix=ui ci
 npm --prefix=ui run build
 
 GOOS=linux GOARCH=amd64 go build -o ./bin/api
+chmod +x ./bin/api
 
 echo "${DOCKER_PASSWORD}" | docker login --username="${DOCKER_USERNAME}" --password-stdin
 docker buildx build --platform="linux/amd64" --push -t "lucasrod96/oss-contribute:${IMAGE_VERSION}" .
