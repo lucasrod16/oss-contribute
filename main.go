@@ -11,7 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	osscontribute "github.com/lucasrod16/oss-contribute/pkg"
+	"github.com/lucasrod16/oss-contribute/internal/cache"
+	ihttp "github.com/lucasrod16/oss-contribute/internal/http"
 )
 
 //go:embed ui/build/*
@@ -26,7 +27,7 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	c := osscontribute.NewCache()
+	c := cache.New()
 
 	ticker := time.NewTicker(12 * time.Hour)
 	defer ticker.Stop()
@@ -51,11 +52,14 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.Handle("/", http.FileServer(http.FS(fs)))
-	mux.Handle("/repos", osscontribute.GetRepos(c))
+	mux.Handle("/repos", ihttp.GetRepos(c))
+
+	rl := ihttp.NewRateLimiter()
+	limitedMux := rl.Limit(mux)
 
 	server := &http.Server{
 		Addr:    "0.0.0.0:8080",
-		Handler: mux,
+		Handler: limitedMux,
 	}
 
 	shutdown := make(chan os.Signal, 1)
