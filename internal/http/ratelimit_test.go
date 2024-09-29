@@ -46,10 +46,7 @@ func TestRateLimiter(t *testing.T) {
 			return nil
 		})
 	}
-	if err := g.Wait(); err != nil {
-		t.Fatal(err)
-	}
-
+	require.NoError(t, g.Wait())
 	require.Equal(t, 10, successCount, "Expected 10 successful requests")
 	require.Equal(t, 10, failCount, "Expected 10 failed requests")
 }
