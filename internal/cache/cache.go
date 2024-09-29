@@ -1,4 +1,4 @@
-package osscontribute
+package cache
 
 import (
 	"context"
@@ -22,7 +22,7 @@ type Cache struct {
 	mu        sync.RWMutex
 }
 
-func NewCache() *Cache {
+func New() *Cache {
 	return &Cache{}
 }
 
