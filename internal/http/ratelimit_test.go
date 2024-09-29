@@ -27,7 +27,7 @@ func TestRateLimiter(t *testing.T) {
 	failCount := 0
 
 	// send 20 requests concurrently to trigger the rate limit
-	for i := 0; i < 20; i++ {
+	for range 20 {
 		g.Go(func() error {
 			rr := httptest.NewRecorder()
 			rl.Limit(GetRepos(c)).ServeHTTP(rr, req)
