@@ -1,6 +1,6 @@
 .PHONY: build-dev
 build-dev:
-	npm --prefix ui run build && CGO_ENABLED=0 go build -o ./bin/api
+	npm --prefix ui run build && CGO_ENABLED=0 go build -ldflags="-s -w" -o ./bin/api
 
 .PHONY: test-unit
 test-unit:
