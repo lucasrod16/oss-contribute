@@ -1,7 +1,7 @@
 [build]
 cmd = "make build-dev"
 bin = "./bin/api"
-include_dir = ["ui", "pkg"]
+include_dir = ["ui", "internal"]
 exclude_dir = ["ui/node_modules", "ui/build"]
 include_ext = ["go", "tpl", "tmpl", "html", "css", "js", "ts", "tsx"]
 
