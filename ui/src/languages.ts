@@ -33,6 +33,7 @@ export const languageImageMap = {
 	Raku: "https://upload.wikimedia.org/wikipedia/commons/8/85/Camelia.svg",
 	Julia: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/julia/julia-original.svg",
 	CoffeeScript: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/coffeescript/coffeescript-original.svg",
+	MDX: "https://mdx-logo.now.sh",
 
 	// unknown/empty
 	"": "https://www.svgrepo.com/show/397695/red-question-mark.svg",
