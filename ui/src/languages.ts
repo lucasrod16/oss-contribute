@@ -31,6 +31,7 @@ export const languageImageMap = {
 	Shell: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg",
 	Roff: "https://repository-images.githubusercontent.com/564045681/5a1306b8-3695-40f8-ac0b-8da2e9ddfbe4",
 	Raku: "https://upload.wikimedia.org/wikipedia/commons/8/85/Camelia.svg",
+	Julia: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/julia/julia-original.svg",
 
 	// unknown/empty
 	"": "https://www.svgrepo.com/show/397695/red-question-mark.svg",
