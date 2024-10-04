@@ -34,6 +34,7 @@ export const languageImageMap = {
 	Julia: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/julia/julia-original.svg",
 	CoffeeScript: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/coffeescript/coffeescript-original.svg",
 	MDX: "https://mdx-logo.now.sh",
+	Prolog: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prolog/prolog-original.svg",
 
 	// unknown/empty
 	"": "https://www.svgrepo.com/show/397695/red-question-mark.svg",
