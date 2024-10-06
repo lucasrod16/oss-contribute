@@ -58,8 +58,10 @@ func main() {
 	limitedMux := rl.Limit(mux)
 
 	server := &http.Server{
-		Addr:    "0.0.0.0:8080",
-		Handler: limitedMux,
+		Addr:         "0.0.0.0:8080",
+		Handler:      limitedMux,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 5 * time.Second,
 	}
 
 	shutdown := make(chan os.Signal, 1)
