@@ -15,7 +15,7 @@
     "react-dom": "18.3.1"
   },
   "scripts": {
-    "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js --loader:.tsx=tsx --loader:.css=css && cp public/index.html build/index.html"
+    "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js && cp public/index.html build/index.html"
   },
   "eslintConfig": {
     "extends": [
