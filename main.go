@@ -51,8 +51,8 @@ func main() {
 	}
 
 	mux := http.NewServeMux()
-	mux.Handle("/", http.FileServer(http.FS(fs)))
-	mux.Handle("/repos", ihttp.GetRepos(c))
+	mux.Handle("GET /", http.FileServer(http.FS(fs)))
+	mux.Handle("GET /repos", ihttp.GetRepos(c))
 
 	rl := ihttp.NewRateLimiter()
 	limitedMux := rl.Limit(mux)
