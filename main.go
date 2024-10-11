@@ -24,8 +24,8 @@ func main() {
 		log.Fatalf("failed to load UI assets: %v", err)
 	}
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
 	c := cache.New()
 
@@ -36,7 +36,8 @@ func main() {
 		for {
 			select {
 			case <-ctx.Done():
-				log.Fatal(ctx.Err())
+				log.Println(ctx.Err())
+				return
 			case <-ticker.C:
 				if err := c.RepoData(ctx); err != nil {
 					log.Printf("Error fetching GitHub repo data: %v", err)
@@ -64,9 +65,6 @@ func main() {
 		WriteTimeout: 5 * time.Second,
 	}
 
-	shutdown := make(chan os.Signal, 1)
-	signal.Notify(shutdown, os.Interrupt, syscall.SIGTERM)
-
 	go func() {
 		log.Println("API server listening on port 8080")
 		if err := server.ListenAndServe(); err != http.ErrServerClosed {
@@ -74,9 +72,14 @@ func main() {
 		}
 	}()
 
-	<-shutdown
+	<-ctx.Done()
+	stop()
 	log.Println("Shutting down server...")
-	if err := server.Shutdown(ctx); err != nil {
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(shutdownCtx); err != nil {
 		log.Fatal(err)
 	}
 	log.Println("Server gracefully shutdown")
