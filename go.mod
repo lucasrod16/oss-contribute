@@ -1,6 +1,6 @@
 module github.com/lucasrod16/oss-contribute
 
-go 1.23.1
+go 1.23.2
 
 require (
 	cloud.google.com/go/storage v1.45.0
