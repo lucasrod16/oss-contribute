@@ -7,8 +7,7 @@ npm --prefix=ui run build
 
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ./bin/api
 
-echo "${DOCKER_PASSWORD}" | docker login --username="${DOCKER_USERNAME}" --password-stdin
-docker buildx build --no-cache --platform="linux/amd64" --push -t "lucasrod96/oss-contribute:${IMAGE_VERSION}" .
+docker buildx build --platform="linux/amd64" --push -t "lucasrod96/oss-contribute:${IMAGE_VERSION}" .
 
 IMAGE_DIGEST=$(docker buildx imagetools inspect "lucasrod96/oss-contribute:${IMAGE_VERSION}" --format "{{json .Manifest}}" | jq -r '.digest')
 
