@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	cloud.google.com/go/storage v1.47.0
 	github.com/google/go-github/v64 v64.0.0
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	golang.org/x/sync v0.9.0
 	golang.org/x/time v0.8.0
 )
