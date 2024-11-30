@@ -35,6 +35,7 @@ export const languageImageMap = {
 	CoffeeScript: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/coffeescript/coffeescript-original.svg",
 	MDX: "https://mdx-logo.now.sh",
 	Prolog: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/prolog/prolog-original.svg",
+	Nix: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nixos/nixos-original.svg",
 
 	// unknown/empty
 	"": "https://www.svgrepo.com/show/397695/red-question-mark.svg",
