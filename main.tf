@@ -1,4 +1,9 @@
 terraform {
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+    }
+  }
   backend "gcs" {
     bucket = "lucasrod16-tfstate"
     prefix = "osscontribute"
