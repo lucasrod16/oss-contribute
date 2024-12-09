@@ -4,7 +4,7 @@
   "private": true,
   "devDependencies": {
     "@types/react": "19.0.0",
-    "@types/react-dom": "19.0.0",
+    "@types/react-dom": "19.0.1",
     "esbuild": "0.24.0",
     "typescript": "5.7.2"
   },
