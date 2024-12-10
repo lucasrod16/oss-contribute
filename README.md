@@ -26,17 +26,10 @@ If you have an idea for a new feature or find a bug that needs to be fixed, feel
 
 ## Deploying Updates to the Site
 
-To deploy updates, create an annotated git tag using [Semantic Versioning](https://semver.org/) and push it to GitHub.
-
-Pushing the tag will trigger the [deployment pipeline](https://github.com/lucasrod16/oss-contribute/blob/main/.github/workflows/deploy.yml), which will deploy the changes to the live environment.
+To create a new release and deploy updates to the site, run the release script from the `main` branch:
 
 ```shell
-# Set the version
-TAG=<version> # example: v0.1.0
-
-# Create the tag
-git tag -a "$TAG" -m "$TAG"
-
-# Push the tag to GitHub
-git push origin "$TAG"
+./scripts/release.sh <semantic version> (e.g., v1.0.0)"
 ```
+
+The release script will create and push a new tag, which will trigger the [deployment pipeline](https://github.com/lucasrod16/oss-contribute/blob/main/.github/workflows/deploy.yml) to deploy changes to the live environment and create a new GitHub release.
