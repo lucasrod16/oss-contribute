@@ -9,7 +9,7 @@
     "typescript": "5.7.2"
   },
   "dependencies": {
-    "@emotion/styled": "11.13.5",
+    "@emotion/styled": "11.14.0",
     "@mui/material": "6.1.10",
     "react": "19.0.0",
     "react-dom": "19.0.0"
