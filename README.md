@@ -29,7 +29,7 @@ If you have an idea for a new feature or find a bug that needs to be fixed, feel
 To create a new release and deploy updates to the site, run the release script from the `main` branch:
 
 ```shell
-./scripts/release.sh <semantic version> (e.g., v1.0.0)"
+./scripts/release.sh <semantic version> (e.g., v1.0.0)
 ```
 
 The release script will create and push a new tag, which will trigger the [deployment pipeline](https://github.com/lucasrod16/oss-contribute/blob/main/.github/workflows/deploy.yml) to deploy changes to the live environment and create a new GitHub release.
