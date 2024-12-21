@@ -32,5 +32,9 @@ jobs:
           project_id: "groovy-momentum-434802-g9"
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
+      - name: Adjust permissions of GCP credentials file
+        # allows user in the docker container used by smoke tests to read the file
+        run: chmod 644 "$GOOGLE_APPLICATION_CREDENTIALS"
+
       - name: Run Smoke Tests
         run: make test-smoke
