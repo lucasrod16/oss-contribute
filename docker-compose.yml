@@ -1,0 +1,15 @@
+services:
+  oss-contribute:
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+    image: oss-contribute:smoke-test
+    container_name: oss-contribute
+    ports:
+      - "8080:8080"
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=${HOME}/.config/gcloud/application_default_credentials.json
+    volumes:
+      - $GOOGLE_APPLICATION_CREDENTIALS:${HOME}/.config/gcloud/application_default_credentials.json:ro
+    platform: linux/amd64
