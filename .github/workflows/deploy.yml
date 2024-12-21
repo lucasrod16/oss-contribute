@@ -16,14 +16,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Run Tests
-        run: make test
-
       - name: Google Cloud Auth
         uses: google-github-actions/auth@6fc4af4b145ae7821d527454aa9bd537d1f2dc5f # v2.1.7
         with:
           project_id: "groovy-momentum-434802-g9"
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Adjust permissions of GCP credentials file
+        # allows user in the docker container used by smoke tests to read the file
+        run: chmod 644 "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Run Tests
+        run: make test
 
       - name: Login to Docker Hub
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
