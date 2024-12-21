@@ -1,0 +1,15 @@
+services:
+  oss-contribute:
+    build:
+      context: .
+      platforms:
+        - linux/amd64
+    image: oss-contribute:smoke-test
+    container_name: oss-contribute
+    ports:
+      - "8080:8080"
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-creds.json
+    volumes:
+      - $GOOGLE_APPLICATION_CREDENTIALS:/tmp/gcp-creds.json:ro
+    platform: linux/amd64
