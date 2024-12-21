@@ -35,6 +35,7 @@ smoke_test() {
   echo -e "${GREEN}PASSED${NONE}"
 }
 
+npm --prefix ui ci
 npm --prefix ui run build
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ./bin/api
 
