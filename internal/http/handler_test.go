@@ -37,14 +37,19 @@ func TestGetRepos(t *testing.T) {
 			expectedBody:   "No data found in cache\n",
 			cacheData:      nil,
 		},
+		{
+			name:           "HEAD request should not return body",
+			method:         http.MethodHead,
+			expectedStatus: http.StatusOK,
+			expectedBody:   "",
+			cacheData:      []byte(`{"data": "some data"}`),
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := cache.New()
-			if tt.cacheData != nil {
-				c.Set(tt.cacheData)
-			}
+			c.Set(tt.cacheData)
 
 			req := httptest.NewRequest(tt.method, "/repos", nil)
 			rr := httptest.NewRecorder()
