@@ -35,17 +35,31 @@ smoke_test() {
   echo -e "${GREEN}PASSED${NONE}"
 }
 
+health_check() {
+  echo "Waiting for app to be ready..."
+
+  start_time=$(date +%s)
+
+  until curl -fsL "http://localhost:8080" > /dev/null; do
+    sleep 2
+    current_time=$(date +%s)
+    elapsed_time=$((current_time - start_time))
+    if [ $elapsed_time -ge 10 ]; then
+        echo "Error: Timed out waiting for app to become healthy."
+        exit 1
+    fi
+  done
+
+  echo "app is ready!"
+}
+
 npm --prefix ui ci
 npm --prefix ui run build
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ./bin/api
 
 docker compose up -d --build
 
-echo "Waiting for app to be ready..."
-until curl -fsL "http://localhost:8080" > /dev/null; do
-    sleep 2
-done
-echo "app is ready!"
+health_check
 
 smoke_test "/" "text/html"
 smoke_test "/repos" "application/json"
