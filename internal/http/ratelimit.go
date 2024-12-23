@@ -17,14 +17,14 @@ type client struct {
 	mu       sync.Mutex
 }
 
-// RateLimiter holds rate limiters per client IP address.
-type RateLimiter struct {
+// rateLimiter holds rate limiters per client IP address.
+type rateLimiter struct {
 	mu      sync.Mutex
 	clients map[string]*client
 }
 
-func NewRateLimiter() *RateLimiter {
-	rl := &RateLimiter{
+func NewRateLimiter() *rateLimiter {
+	rl := &rateLimiter{
 		clients: make(map[string]*client),
 	}
 	go rl.cleanupStaleClients(10)
@@ -32,7 +32,7 @@ func NewRateLimiter() *RateLimiter {
 }
 
 // Limit applies rate limiting to the given HTTP handler.
-func (rl *RateLimiter) Limit(next http.Handler) http.Handler {
+func (rl *rateLimiter) Limit(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cl := rl.getClientLimiter(getClientIP(r))
 
@@ -49,7 +49,7 @@ func (rl *RateLimiter) Limit(next http.Handler) http.Handler {
 	})
 }
 
-func (rl *RateLimiter) getClientLimiter(ip string) *client {
+func (rl *rateLimiter) getClientLimiter(ip string) *client {
 	rl.mu.Lock()
 	defer rl.mu.Unlock()
 
@@ -65,7 +65,7 @@ func (rl *RateLimiter) getClientLimiter(ip string) *client {
 }
 
 // cleanupStaleClients removes clients that haven't requested in the last specified duration to conserve memory.
-func (rl *RateLimiter) cleanupStaleClients(minutes time.Duration) {
+func (rl *rateLimiter) cleanupStaleClients(minutes time.Duration) {
 	ticker := time.NewTicker(time.Minute)
 	defer ticker.Stop()
 
