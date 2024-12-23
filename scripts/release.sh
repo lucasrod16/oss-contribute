@@ -6,7 +6,7 @@ verify_on_main_branch() {
     local current_branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     if [[ "$current_branch" != "main" ]]; then
-        echo "Error: Must be on the 'main' branch to run the release script (currently on $current_branch)."
+        echo "Error: Must be on the 'main' branch to run the release script (currently on '$current_branch')."
         exit 1
     fi
 }
@@ -57,12 +57,16 @@ validate_version_greater_than_latest() {
 }
 
 verify_on_main_branch
+echo "Pulling latest changes from remote..."
+git pull origin main --rebase
+
 validate_args "$@"
 validate_tag_begins_with_v "$@"
 
+validate_semver "$@"
+validate_version_greater_than_latest "$@"
+
 TAG=$1
-validate_semver "$TAG"
-validate_version_greater_than_latest "$TAG"
 
 git tag -a "$TAG" -m "$TAG"
 git push origin "$TAG"
