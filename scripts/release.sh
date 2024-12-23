@@ -57,14 +57,13 @@ validate_version_greater_than_latest() {
 }
 
 verify_on_main_branch
-echo "Pulling latest changes from remote..."
-git pull origin main --rebase
-
 validate_args "$@"
 validate_tag_begins_with_v "$@"
-
 validate_semver "$@"
 validate_version_greater_than_latest "$@"
+
+echo "Pulling latest changes from remote..."
+git pull origin main --rebase
 
 TAG=$1
 
