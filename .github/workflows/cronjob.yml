@@ -3,6 +3,7 @@ name: Write GitHub Data To Google Cloud Storage
 on:
   schedule:
     - cron: "15 0 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -23,3 +24,14 @@ jobs:
 
       - name: Run CronJob
         run: go run cmd/cronjob/main.go
+
+  notify-on-failure:
+    needs: github-to-gcs
+    runs-on: ubuntu-latest
+    if: ${{ !success() }}
+    steps:
+      - name: Send Notification Email
+        run: go run cmd/sendemail/main.go
+        env:
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          WORKFLOW_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
