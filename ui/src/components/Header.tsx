@@ -24,7 +24,8 @@ const Header = () => {
 							Contributing to open source is a great way to grow your skills and connect with talented people worldwide.
 						</Typography>
 						<Typography variant="body1">
-							💡 Tip: Look for issues labeled "help wanted" and "good first issue" to find things to work on.
+							💡 Tip: Look for issues labeled &quot;help wanted&quot; and &quot;good first issue&quot; to find things to
+							work on.
 						</Typography>
 						<Link
 							href="https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels"

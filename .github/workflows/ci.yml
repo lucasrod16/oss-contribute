@@ -1,4 +1,4 @@
-name: Run Tests
+name: Continuous Integration
 
 on:
   push:
@@ -38,3 +38,19 @@ jobs:
 
       - name: Run Smoke Tests
         run: make test-smoke
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install Node deps
+        run: npm --prefix ui ci
+
+      - name: Lint
+        run: |
+          if ! make lint; then
+            echo "Linting failed. Try running \`make lint-fix\` to automatically resolve the linting errors."
+            exit 1
+          fi
