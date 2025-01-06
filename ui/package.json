@@ -16,10 +16,5 @@
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js && cp public/index.html build/index.html"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
   }
 }
