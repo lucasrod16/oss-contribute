@@ -12,3 +12,9 @@ test-smoke:
 	@echo "================FINISHED RUNNING SMOKE TESTS================\n"
 
 test: test-unit test-smoke
+
+lint:
+	npm --prefix ui run lint
+
+lint-fix:
+	npm --prefix ui run lint:fix
