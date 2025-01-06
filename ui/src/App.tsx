@@ -43,6 +43,7 @@ const App = () => {
 	const [cards, setCards] = useState<Repo[]>([]);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [selectedLanguages, setSelectedLanguages] = useState<Language[]>([]);
+	const [availableLanguages, setAvailableLanguages] = useState<Language[]>([]);
 	const cardsPerPage = 20;
 
 	useEffect(() => {
@@ -56,6 +57,11 @@ const App = () => {
 				}
 				const data = await response.json();
 				setCards(data);
+
+				const availableLanguages = Array.from(
+					new Set(data.map((repo: Repo) => repo.language).filter(Boolean))
+				) as Language[];
+				setAvailableLanguages(availableLanguages);
 			} catch (error) {
 				console.error("Error fetching repos:", (error as Error).message);
 			}
@@ -83,7 +89,11 @@ const App = () => {
 				<Navbar />
 				<Header />
 				<Container sx={{ flex: 1 }}>
-					<Filter selectedLanguages={selectedLanguages} onFilterChange={handleFilterChange} />
+					<Filter
+						selectedLanguages={selectedLanguages}
+						onFilterChange={handleFilterChange}
+						availableLanguages={availableLanguages}
+					/>
 					<Box sx={{ display: "flex", flexDirection: "column", gap: 3, alignItems: "center" }}>
 						{currentCards.map((repo) => (
 							<Card repo={repo} key={repo.name} />

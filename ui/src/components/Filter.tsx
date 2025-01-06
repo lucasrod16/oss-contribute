@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { Language, languageImageMap } from "../languages.ts";
+import { Language } from "../languages.ts";
 
 type FilterProps = {
 	selectedLanguages: Language[];
+	availableLanguages: Language[];
 	onFilterChange: (selectedLanguages: Language[]) => void;
 };
 
-const Filter: React.FC<FilterProps> = ({ selectedLanguages, onFilterChange }) => {
+const Filter: React.FC<FilterProps> = ({ availableLanguages, onFilterChange }) => {
 	const [selectedLanguage, setSelectedLanguage] = useState<Language | "">("");
 
 	const handleDropdownChange = (event: SelectChangeEvent<Language | "">) => {
@@ -67,7 +68,7 @@ const Filter: React.FC<FilterProps> = ({ selectedLanguages, onFilterChange }) =>
 					}}
 				>
 					<MenuItem value="">All Languages</MenuItem>
-					{Object.keys(languageImageMap).map((language) => (
+					{availableLanguages.map((language) => (
 						<MenuItem key={language} value={language}>
 							{language}
 						</MenuItem>
