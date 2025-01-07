@@ -28,7 +28,7 @@ const Header = () => {
 							work on.
 						</Typography>
 						<Link
-							href="https://docs.github.com/en/issues/tracking-your-work-with-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels"
+							href="https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels"
 							target="_blank"
 							rel="noopener noreferrer"
 							color="primary"
