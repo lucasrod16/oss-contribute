@@ -48,7 +48,7 @@ const App = () => {
 
 	useEffect(() => {
 		const fetchRepos = async () => {
-			const baseURL = window.location.hostname === "localhost" ? "http://localhost:8080" : "https://osscontribute.com";
+			const baseURL = window.location.origin;
 			const apiURL = `${baseURL}/repos`;
 			try {
 				const response = await fetch(apiURL);

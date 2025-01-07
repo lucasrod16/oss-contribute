@@ -12,7 +12,17 @@ test-smoke:
 	./scripts/smoke-tests.sh
 	@echo "================FINISHED RUNNING SMOKE TESTS================\n"
 
-test: test-unit test-smoke
+test-e2e:
+	@echo "================RUNNING E2E TESTS================\n"
+	./scripts/e2e-tests.sh
+	@echo "================FINISHED E2E TESTS================\n"
+
+test-e2e-dev:
+	@echo "================RUNNING E2E TESTS================\n"
+	npm --prefix=ui run test:e2e-dev
+	@echo "================FINISHED E2E TESTS================\n"
+
+test: test-unit test-smoke test-e2e
 
 lint:
 	npm --prefix ui run lint
