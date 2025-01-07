@@ -1,5 +1,6 @@
 build-dev:
-	npm --prefix ui run build && CGO_ENABLED=0 go build -ldflags="-s -w" -o ./bin/api
+	npm --prefix ui run build
+	CGO_ENABLED=0 go build -ldflags="-s -w" -o ./bin/api
 
 test-unit:
 	@echo "================RUNNING UNIT TESTS================\n"
