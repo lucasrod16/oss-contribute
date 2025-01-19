@@ -20,7 +20,7 @@ func GetRepos(c *cache.Cache) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Header().Set("Last-Modified", timestamp.Format(http.TimeFormat))
+		w.Header().Set("Last-Modified", timestamp)
 
 		if r.Method == http.MethodHead {
 			w.WriteHeader(http.StatusOK)

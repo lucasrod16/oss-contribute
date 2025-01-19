@@ -37,7 +37,8 @@ func TestCache(t *testing.T) {
 			data, timestamp := cache.Get()
 
 			require.Equal(t, tt.expected, data)
-			require.False(t, timestamp.IsZero(), "timestamp should not be empty")
+			require.NotEmpty(t, timestamp)
+			require.Contains(t, timestamp, "GMT")
 		})
 	}
 }
