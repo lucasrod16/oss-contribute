@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"sync"
+	"net/http"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -18,8 +18,7 @@ const (
 
 type Cache struct {
 	data      []byte
-	timestamp time.Time
-	mu        sync.RWMutex
+	timestamp string
 }
 
 func New() *Cache {
@@ -27,15 +26,11 @@ func New() *Cache {
 }
 
 func (c *Cache) Set(data []byte) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
 	c.data = data
-	c.timestamp = time.Now().UTC()
+	c.timestamp = time.Now().UTC().Format(http.TimeFormat)
 }
 
-func (c *Cache) Get() ([]byte, time.Time) {
-	c.mu.RLock()
-	defer c.mu.RUnlock()
+func (c *Cache) Get() ([]byte, string) {
 	return c.data, c.timestamp
 }
 
