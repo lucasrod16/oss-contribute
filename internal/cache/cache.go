@@ -6,6 +6,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -19,6 +20,7 @@ const (
 type Cache struct {
 	data      []byte
 	timestamp string
+	mutex     sync.RWMutex
 }
 
 func New() *Cache {
@@ -26,11 +28,15 @@ func New() *Cache {
 }
 
 func (c *Cache) Set(data []byte) {
+	c.mutex.Lock()
 	c.data = data
 	c.timestamp = time.Now().UTC().Format(http.TimeFormat)
+	c.mutex.Unlock()
 }
 
 func (c *Cache) Get() ([]byte, string) {
+	c.mutex.RLock()
+	defer c.mutex.RUnlock()
 	return c.data, c.timestamp
 }
 
