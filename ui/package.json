@@ -8,14 +8,14 @@
     "eslint-config-prettier": "10.0.1",
     "eslint-plugin-prettier": "5.2.3",
     "eslint-plugin-react": "7.37.4",
-    "typescript-eslint": "8.24.0",
+    "typescript-eslint": "8.24.1",
     "prettier": "3.5.1",
     "esbuild": "0.25.0",
     "cypress": "14.0.3",
     "globals": "15.15.0",
     "@types/node": "22.13.4",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
     "typescript": "5.7.3"
   },
   "dependencies": {
