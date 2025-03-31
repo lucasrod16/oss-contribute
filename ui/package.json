@@ -14,15 +14,15 @@
     "cypress": "14.2.1",
     "globals": "16.0.0",
     "@types/node": "22.13.14",
-    "@types/react": "19.0.8",
-    "@types/react-dom": "19.0.3",
+    "@types/react": "19.0.12",
+    "@types/react-dom": "19.0.4",
     "typescript": "5.8.2"
   },
   "dependencies": {
     "@emotion/styled": "11.14.0",
-    "@mui/material": "6.4.7",
-    "react": "19.0.0",
-    "react-dom": "19.0.0"
+    "@mui/material": "7.0.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js && cp public/index.html build/index.html",
