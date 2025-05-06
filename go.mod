@@ -1,13 +1,14 @@
 module github.com/lucasrod16/oss-contribute
 
 go 1.23.5
+
 toolchain go1.24.1
 
 require (
 	cloud.google.com/go/storage v1.51.0
 	github.com/google/go-github/v64 v64.0.0
 	github.com/stretchr/testify v1.10.0
-	golang.org/x/sync v0.12.0
+	golang.org/x/sync v0.14.0
 	golang.org/x/time v0.11.0
 )
 
