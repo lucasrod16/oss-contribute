@@ -1,8 +1,10 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, useTheme } from "@mui/material";
 import { alpha } from "@mui/material/styles";
+import { Chip, Box  } from "@mui/material";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
-const Navbar: React.FC = () => {
+const Navbar: React.FunctionComponent = () => {
 	const theme = useTheme();
 
 	const scrollToTop = () => {
@@ -20,7 +22,8 @@ const Navbar: React.FC = () => {
 				py: 0.5,
 			}}
 		>
-			<Toolbar sx={{ display: "flex", justifyContent: "center" }}>
+			<Toolbar sx={{ display: "flex", justifyContent: "center" }} >
+				<Box sx={{ marginRight: "auto", visibility: "hidden" }}></Box>
 				<Typography
 					variant="h6"
 					onClick={scrollToTop}
@@ -34,6 +37,9 @@ const Navbar: React.FC = () => {
 				>
 					osscontribute.com
 				</Typography>
+				<Chip variant="outlined" label="Source" component="a" href="https://github.com/lucasrod16/oss-contribute" icon={<GitHubIcon/>} clickable 
+					sx={{ marginLeft: "auto" }} 
+					/>
 			</Toolbar>
 		</AppBar>
 	);

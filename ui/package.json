@@ -21,11 +21,13 @@
   "dependencies": {
     "@emotion/styled": "11.14.0",
     "@mui/material": "6.4.7",
+    "@mui/icons-material": "6.4.7",
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js && cp public/index.html build/index.html",
+    "build:dev": "esbuild src/index.tsx --sourcemap --outfile=build/app.js --watch --servedir=build && cp public/index.html build/index.html",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test:e2e": "cypress run && cypress run --browser firefox",
