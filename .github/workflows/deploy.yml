@@ -1,4 +1,4 @@
-name: Deploy Website
+name: Deploy app
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy-site:
+  deploy-app:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
