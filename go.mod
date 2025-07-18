@@ -1,8 +1,6 @@
 module github.com/lucasrod16/oss-projects
 
-go 1.23.5
-
-toolchain go1.24.1
+go 1.24.5
 
 require (
 	cloud.google.com/go/storage v1.55.0
