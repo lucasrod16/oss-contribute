@@ -56,19 +56,23 @@ validate_version_greater_than_latest() {
     fi
 }
 
-verify_on_main_branch
-validate_args "$@"
-validate_tag_begins_with_v "$@"
-validate_semver "$@"
-validate_version_greater_than_latest "$@"
+main() {
+    verify_on_main_branch
+    validate_args "$@"
+    validate_tag_begins_with_v "$@"
+    validate_semver "$@"
+    validate_version_greater_than_latest "$@"
 
-echo "Pulling latest changes from remote..."
-git pull origin main --rebase
+    echo "Pulling latest changes from remote..."
+    git pull origin main --rebase
 
-TAG=$1
+    TAG=$1
 
-git tag -a "$TAG" -m "$TAG"
-git push origin "$TAG"
+    git tag -a "$TAG" -m "$TAG"
+    git push origin "$TAG"
 
-echo "Tag $TAG created and pushed successfully."
-echo "View the release workflow: https://github.com/lucasrod16/oss-projects/actions/workflows/deploy.yml"
+    echo "Tag $TAG created and pushed successfully."
+    echo "View the release workflow: https://github.com/lucasrod16/oss-projects/actions/workflows/deploy.yml"
+}
+
+main "$@"
