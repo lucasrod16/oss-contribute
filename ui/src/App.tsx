@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Container, CssBaseline, Box } from "@mui/material";
+import { Container, CssBaseline, Box, Fade } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Card from "./components/Card";
 import Pagination from "./components/Pagination";
 import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Filter from "./components/Filter";
 import { Language } from "./languages.ts";
@@ -87,13 +86,32 @@ const App = () => {
 			<CssBaseline />
 			<Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 				<Navbar />
-				<Header />
-				<Container sx={{ flex: 1 }}>
-					<Filter
-						selectedLanguages={selectedLanguages}
-						onFilterChange={handleFilterChange}
-						availableLanguages={availableLanguages}
+				{/* Header section with centered filter */}
+				<Box sx={{ textAlign: "center", mt: 4, mb: 4, position: "relative" }}>
+					<Box
+						sx={{
+							position: "absolute",
+							top: 0,
+							left: 0,
+							width: "100%",
+							height: "100%",
+							backgroundColor: "background.default",
+							zIndex: -1,
+						}}
 					/>
+					<Container>
+						<Fade in={true} timeout={1000}>
+							<Box sx={{ display: "flex", justifyContent: "center" }}>
+								<Filter
+									selectedLanguages={selectedLanguages}
+									onFilterChange={handleFilterChange}
+									availableLanguages={availableLanguages}
+								/>
+							</Box>
+						</Fade>
+					</Container>
+				</Box>
+				<Container sx={{ flex: 1 }}>
 					<Box sx={{ display: "flex", flexDirection: "column", gap: 3, alignItems: "center" }}>
 						{currentCards.map((repo) => (
 							<Card repo={repo} key={repo.name} />

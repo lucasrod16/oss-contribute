@@ -1,23 +1,7 @@
 describe("Check Page Title", () => {
 	it("has title", () => {
 		cy.visit("/");
-		cy.title().should("eq", "Explore Top Open Source Projects");
-	});
-});
-
-describe("GitHub Documentation Link", () => {
-	it("should open the correct GitHub documentation link", () => {
-		cy.visit("/");
-		cy.contains("Learn more in the GitHub documentation")
-			.invoke("removeAttr", "target")
-			.click();
-		// https://docs.cypress.io/app/guides/cross-origin-testing#External-Navigation
-		cy.origin("https://docs.github.com", () => {
-			cy.url().should(
-				"eq",
-				"https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/filtering-and-searching-issues-and-pull-requests#filtering-issues-and-pull-requests-by-labels"
-			);
-		});
+		cy.title().should("eq", "oss-projects");
 	});
 });
 
