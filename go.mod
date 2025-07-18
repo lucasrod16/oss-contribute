@@ -1,4 +1,4 @@
-module github.com/lucasrod16/oss-contribute
+module github.com/lucasrod16/oss-projects
 
 go 1.23.5
 

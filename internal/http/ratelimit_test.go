@@ -7,7 +7,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/lucasrod16/oss-contribute/internal/cache"
+	"github.com/lucasrod16/oss-projects/internal/cache"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/sync/errgroup"
 )

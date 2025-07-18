@@ -9,7 +9,7 @@ NONE='\033[0m'
 
 cleanup() {
     echo -e "${BLUE}=== Application logs ===${NONE}"
-    docker logs oss-contribute
+    docker logs oss-projects
     echo -e "${BLUE}=== Application logs ===${NONE}"
     docker compose down
 }

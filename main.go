@@ -11,8 +11,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/lucasrod16/oss-contribute/internal/cache"
-	ihttp "github.com/lucasrod16/oss-contribute/internal/http"
+	"github.com/lucasrod16/oss-projects/internal/cache"
+	ihttp "github.com/lucasrod16/oss-projects/internal/http"
 )
 
 //go:embed ui/build/*

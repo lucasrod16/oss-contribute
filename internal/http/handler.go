@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 
-	"github.com/lucasrod16/oss-contribute/internal/cache"
+	"github.com/lucasrod16/oss-projects/internal/cache"
 )
 
 func GetRepos(c *cache.Cache) http.HandlerFunc {

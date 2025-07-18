@@ -1,11 +1,11 @@
 services:
-  oss-contribute:
+  oss-projects:
     build:
       context: .
       platforms:
         - linux/amd64
-    image: oss-contribute:test
-    container_name: oss-contribute
+    image: oss-projects:test
+    container_name: oss-projects
     ports:
       - "8080:8080"
     environment:

@@ -6,7 +6,7 @@ terraform {
   }
   backend "gcs" {
     bucket = "lucasrod16-tfstate"
-    prefix = "osscontribute"
+    prefix = "ossprojects"
   }
 }
 
@@ -20,21 +20,21 @@ variable "image_digest" {
   type        = string
 }
 
-resource "google_cloud_run_v2_service" "oss_contribute" {
-  name                = "oss-contribute"
+resource "google_cloud_run_v2_service" "oss_projects" {
+  name                = "oss-projects"
   location            = "us-central1"
   deletion_protection = false
 
   template {
     containers {
-      image = "lucasrod96/oss-contribute@${var.image_digest}"
+      image = "lucasrod96/oss-projects@${var.image_digest}"
     }
   }
 }
 
 resource "google_cloud_run_v2_service_iam_member" "noauth" {
-  name     = google_cloud_run_v2_service.oss_contribute.name
-  location = google_cloud_run_v2_service.oss_contribute.location
+  name     = google_cloud_run_v2_service.oss_projects.name
+  location = google_cloud_run_v2_service.oss_projects.location
   role     = "roles/run.invoker"
   member   = "allUsers"
 }

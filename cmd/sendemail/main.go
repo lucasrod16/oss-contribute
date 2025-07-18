@@ -43,9 +43,9 @@ func main() {
 		to:       "lucas.rodriguez9616@gmail.com",
 		smtpHost: "smtp.gmail.com",
 		smtpPort: "587",
-		subject:  "OSS Contribute GitHub Workflow Failure",
+		subject:  "OSS Projects GitHub Workflow Failure",
 		body: fmt.Sprintf(
-			"The oss-contribute cronjob workflow did not succeed. "+
+			"The oss-projects cronjob workflow did not succeed. "+
 				"The GitHub data in the lucasrod16-github-data GCS bucket was not updated.\n\n"+
 				"Workflow URL: %s",
 			workflowURL,

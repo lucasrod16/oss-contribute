@@ -8,7 +8,9 @@ describe("Check Page Title", () => {
 describe("GitHub Documentation Link", () => {
 	it("should open the correct GitHub documentation link", () => {
 		cy.visit("/");
-		cy.contains("Learn more in the GitHub documentation").invoke("removeAttr", "target").click();
+		cy.contains("Learn more in the GitHub documentation")
+			.invoke("removeAttr", "target")
+			.click();
 		// https://docs.cypress.io/app/guides/cross-origin-testing#External-Navigation
 		cy.origin("https://docs.github.com", () => {
 			cy.url().should(
@@ -20,7 +22,7 @@ describe("GitHub Documentation Link", () => {
 });
 
 describe("Navbar Link", () => {
-	it("clicking 'osscontribute.com' in navbar takes user to top of the page", () => {
+	it("clicking navbar brand takes user to top of the page", () => {
 		cy.visit("/");
 		cy.scrollTo(0, 500);
 		cy.contains("osscontribute.com").click();

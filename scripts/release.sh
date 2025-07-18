@@ -71,4 +71,4 @@ git tag -a "$TAG" -m "$TAG"
 git push origin "$TAG"
 
 echo "Tag $TAG created and pushed successfully."
-echo "View the release workflow: https://github.com/lucasrod16/oss-contribute/actions/workflows/deploy.yml"
+echo "View the release workflow: https://github.com/lucasrod16/oss-projects/actions/workflows/deploy.yml"

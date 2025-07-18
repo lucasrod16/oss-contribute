@@ -6,7 +6,7 @@ temp_file=$(mktemp)
 
 # Send 20 concurrent GET requests and store status codes
 for _ in {1..20}; do
-  curl -s -o /dev/null -w "%{http_code}\n" https://osscontribute.com/repos >> "$temp_file" &
+  curl -s -o /dev/null -w "%{http_code}\n" https://ossprojects.com/repos >> "$temp_file" &
 done
 wait
 
