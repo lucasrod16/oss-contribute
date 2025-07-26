@@ -29,3 +29,6 @@ lint:
 
 lint-fix:
 	npm --prefix ui run lint:fix
+
+release tag:
+    ./scripts/release.sh {{tag}}
