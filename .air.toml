@@ -1,5 +1,5 @@
 [build]
-cmd = "make build-dev"
+cmd = "just build-dev"
 bin = "./bin/api"
 include_dir = ["ui", "internal"]
 exclude_dir = ["ui/node_modules", "ui/build"]
