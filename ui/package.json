@@ -21,8 +21,8 @@
   "dependencies": {
     "@emotion/styled": "11.14.1",
     "@mui/material": "7.2.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
   },
   "scripts": {
     "build": "esbuild src/index.tsx --bundle --minify --outfile=build/app.js && cp public/index.html build/index.html",
