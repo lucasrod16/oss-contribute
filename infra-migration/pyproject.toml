@@ -1,6 +1,0 @@
-[project]
-name = "oss-projects-server-config"
-version = "0.1.0"
-description = "Server configuration for oss-projects web application"
-dependencies = ["ansible-core"]
-requires-python = ">=3.9"
