@@ -37,9 +37,9 @@ resource "hcloud_firewall" "web_firewall" {
 
 resource "hcloud_server" "web_server" {
   name        = "oss-projects-server"
-  image       = "ubuntu-24.04"
-  server_type = "cpx11"
-  location    = "ash"
+  image       = "docker-ce"
+  server_type = "cpx21"
+  location    = "hil"
 
   ssh_keys     = [hcloud_ssh_key.default.id]
   firewall_ids = [hcloud_firewall.web_firewall.id]
