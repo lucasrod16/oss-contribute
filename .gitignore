@@ -45,3 +45,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# uv virtual environment
+**/.venv/*
