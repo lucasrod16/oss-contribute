@@ -9,7 +9,7 @@ cleanup() {
     echo -e "${BLUE}=== Application logs ===${NONE}"
     docker logs oss-projects
     echo -e "${BLUE}=== Application logs ===${NONE}"
-    docker compose down
+    docker compose -f docker-compose.test.yml down
 }
 
 trap cleanup EXIT
@@ -36,6 +36,6 @@ npm --prefix ui ci
 npm --prefix ui run build
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ./bin/api
 
-docker compose up -d --build
+docker compose -f docker-compose.test.yml up -d --build
 health_check
 npm --prefix ui run test:e2e

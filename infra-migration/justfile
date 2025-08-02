@@ -1,0 +1,27 @@
+clean:
+    rm -rf .terraform*
+
+init:
+    terraform init
+
+plan:
+    terraform plan
+
+apply:
+    terraform apply --auto-approve
+
+destroy:
+    terraform destroy --auto-approve
+
+validate:
+    terraform validate
+
+fmt:
+    terraform fmt
+
+configure:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    SERVER_IP=$(terraform output -raw server_ip)
+    uv run -- ansible-playbook -i ansible/inventory.ini ansible/playbook.yml --extra-vars "ansible_host=$SERVER_IP"
