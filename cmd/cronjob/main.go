@@ -5,17 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"slices"
 	"strings"
 	"time"
 
-	"cloud.google.com/go/storage"
 	"github.com/google/go-github/v64/github"
 )
 
 const (
 	jsonFile = "data.json"
-	bucket   = "lucasrod16-github-data"
+	gistID   = "dafa982abfa42982e02c75f1ddec46be"
 )
 
 type repo struct {
@@ -30,7 +30,13 @@ type repo struct {
 
 func main() {
 	ctx := context.Background()
-	client := github.NewClient(nil)
+
+	token := os.Getenv("GIST_TOKEN")
+	if token == "" {
+		log.Fatal("GIST_TOKEN environment variable is required")
+	}
+
+	client := github.NewClient(nil).WithAuthToken(token)
 
 	licenses, err := licenseKeys(ctx, client)
 	if err != nil {
@@ -91,21 +97,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	gcsClient, err := storage.NewClient(ctx)
+	gist := &github.Gist{
+		Files: map[github.GistFilename]github.GistFile{
+			github.GistFilename(jsonFile): {
+				Content: github.String(string(data)),
+			},
+		},
+	}
+
+	_, _, err = client.Gists.Edit(ctx, gistID, gist)
 	if err != nil {
-		log.Fatalf("failed to create GCS client: %v", err)
-	}
-	defer gcsClient.Close()
-
-	w := gcsClient.Bucket(bucket).Object(jsonFile).NewWriter(ctx)
-	if _, err := w.Write(data); err != nil {
-		log.Fatalf("GCS Write error: %v", err)
-	}
-	if err := w.Close(); err != nil {
-		log.Fatalf("error closing GCS writer: %v", err)
+		log.Fatalf("error updating gist: %v", err)
 	}
 
-	log.Printf("Successfully fetched and stored GitHub repo data to GCS bucket: %s", bucket)
+	log.Printf("Successfully fetched and stored GitHub repo data to gist: %s", gistID)
 }
 
 func licenseKeys(ctx context.Context, client *github.Client) (string, error) {

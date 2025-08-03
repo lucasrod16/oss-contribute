@@ -8,8 +8,4 @@ services:
     container_name: oss-projects
     ports:
       - "8080:8080"
-    environment:
-      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp-creds.json
-    volumes:
-      - $GOOGLE_APPLICATION_CREDENTIALS:/tmp/gcp-creds.json:ro
     platform: linux/amd64

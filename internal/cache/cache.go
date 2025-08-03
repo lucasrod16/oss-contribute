@@ -8,13 +8,10 @@ import (
 	"net/http"
 	"sync"
 	"time"
-
-	"cloud.google.com/go/storage"
 )
 
 const (
-	jsonFile = "data.json"
-	bucket   = "lucasrod16-github-data"
+	gistURL = "https://gist.githubusercontent.com/lucasrod16/dafa982abfa42982e02c75f1ddec46be/raw/data.json"
 )
 
 type Cache struct {
@@ -41,24 +38,22 @@ func (c *Cache) Get() ([]byte, string) {
 }
 
 func (c *Cache) RepoData(ctx context.Context) error {
-	gcsClient, err := storage.NewClient(ctx, storage.WithJSONReads())
+	resp, err := http.Get(gistURL)
 	if err != nil {
-		return fmt.Errorf("failed to create GCS client: %w", err)
+		return fmt.Errorf("error fetching data from GitHub gist: %w", err)
 	}
-	defer gcsClient.Close()
+	defer resp.Body.Close()
 
-	r, err := gcsClient.Bucket(bucket).Object(jsonFile).NewReader(ctx)
-	if err != nil {
-		return fmt.Errorf("error creating GCS reader: %w", err)
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("GitHub gist returned status %d: %s", resp.StatusCode, resp.Status)
 	}
-	defer r.Close()
 
-	data, err := io.ReadAll(r)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("error reading GitHub data from GCS bucket %q: %w", bucket, err)
+		return fmt.Errorf("error reading GitHub data from gist: %w", err)
 	}
 
 	c.Set(data)
-	log.Println("Successfully loaded GitHub data from GCS bucket into the in-memory cache.")
+	log.Println("Successfully loaded GitHub data from gist into the in-memory cache.")
 	return nil
 }

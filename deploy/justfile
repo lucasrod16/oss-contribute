@@ -1,0 +1,26 @@
+clean:
+    rm -rf .terraform*
+
+init:
+    terraform init
+
+plan:
+    terraform plan
+
+apply:
+    terraform apply --auto-approve
+
+destroy:
+    terraform destroy --auto-approve
+
+validate:
+    terraform validate
+
+fmt:
+    terraform fmt
+
+build:
+    ./build.sh
+
+deploy: init plan apply
+    ./deploy.sh

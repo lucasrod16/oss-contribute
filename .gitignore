@@ -5,7 +5,6 @@ go.work.sum
 .env
 data.json
 tmp
-gha-creds-*.json
 
 # Terraform
 # Local .terraform directories

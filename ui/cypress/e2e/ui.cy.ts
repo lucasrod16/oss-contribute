@@ -9,7 +9,7 @@ describe("Navbar Link", () => {
 	it("clicking navbar brand takes user to top of the page", () => {
 		cy.visit("/");
 		cy.scrollTo(0, 500);
-		cy.contains("osscontribute.com").click();
+		cy.contains("osscontribute.dev").click();
 		cy.window().should("have.property", "scrollY", 0);
 	});
 });
