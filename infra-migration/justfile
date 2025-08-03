@@ -18,3 +18,9 @@ validate:
 
 fmt:
     terraform fmt
+
+build:
+    ./build.sh
+
+deploy:
+    ./deploy.sh
