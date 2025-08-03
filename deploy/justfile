@@ -24,3 +24,6 @@ build:
 
 deploy: init plan apply
     ./deploy.sh
+
+ssh:
+    ssh root@osscontribute.dev
