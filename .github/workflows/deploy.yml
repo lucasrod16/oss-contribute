@@ -22,10 +22,6 @@ jobs:
           project_id: "groovy-momentum-434802-g9"
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
-      - name: Adjust permissions of GCP credentials file
-        # allows user in the docker container used by smoke tests to read the file
-        run: chmod 644 "$GOOGLE_APPLICATION_CREDENTIALS"
-
       - name: Login to Docker Hub
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         with:
@@ -37,10 +33,12 @@ jobs:
         with:
           terraform_wrapper: false
 
+      - name: Install just
+        uses: extractions/setup-just@e33e0265a09d6d736e2ee1e0eb685ef1de4669ff # v3.0.0
+
       - name: Deploy
-        env:
-          IMAGE_VERSION: ${{ github.ref_name }}
-        run: ./scripts/deploy.sh
+        working-directory: deploy
+        run: just deploy
 
       - name: Create GitHub Release
         env:
