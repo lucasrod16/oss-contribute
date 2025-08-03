@@ -46,7 +46,7 @@ func main() {
 		subject:  "OSS Projects GitHub Workflow Failure",
 		body: fmt.Sprintf(
 			"The oss-projects cronjob workflow did not succeed. "+
-				"The GitHub data in the lucasrod16-github-data GCS bucket was not updated.\n\n"+
+				"The GitHub data in the 'https://gist.github.com/lucasrod16/dafa982abfa42982e02c75f1ddec46be' gist was not updated.\n\n"+
 				"Workflow URL: %s",
 			workflowURL,
 		),
