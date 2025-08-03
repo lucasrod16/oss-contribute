@@ -1,11 +1,10 @@
 services:
   oss-projects:
-    image: lucasrod96/oss-projects-hetzner-migration@sha256:23121fde54e7233d0f6b1f3ef41e77c1d75dc775cd405f7f42da4ddd90c9e63d
+    image: lucasrod96/oss-projects-hetzner-migration@sha256:3f2ea608b25c4420cde8a06b114b9c3519948dbd1e815b117b85b5d92ebcfed5
     container_name: oss-projects
     ports:
       - "8080:8080"
     platform: linux/amd64
-
   caddy:
     image: caddy:2.10.0-alpine
     container_name: caddy
@@ -21,7 +20,6 @@ services:
     restart: always
     depends_on:
       - oss-projects
-
 volumes:
   caddy_data:
   caddy_config:

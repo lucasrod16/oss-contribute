@@ -1,4 +1,4 @@
-osscontribute.com {
+osscontribute.dev {
     reverse_proxy oss-projects:8080
 }
 

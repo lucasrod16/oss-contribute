@@ -4,6 +4,11 @@ terraform {
       source = "hetznercloud/hcloud"
     }
   }
+
+  backend "gcs" {
+    bucket = "lucasrod16-tfstate"
+    prefix = "ossprojects-hetzner"
+  }
 }
 
 provider "hcloud" {}
