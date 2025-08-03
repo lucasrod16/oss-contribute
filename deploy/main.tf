@@ -18,6 +18,11 @@ resource "hcloud_ssh_key" "default" {
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
+resource "hcloud_ssh_key" "github_actions" {
+  name       = "github-actions-deploy"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJF/VnYcC0sjznla4WcpbJxtdWWZH/vD1YnKsXbgUUB0 github-actions-deploy"
+}
+
 resource "hcloud_firewall" "web_firewall" {
   name = "oss-projects-firewall"
 
@@ -49,7 +54,10 @@ resource "hcloud_server" "web_server" {
   server_type = "cpx21"
   location    = "hil"
 
-  ssh_keys     = [hcloud_ssh_key.default.id]
+  ssh_keys = [
+    hcloud_ssh_key.default.id,
+    hcloud_ssh_key.github_actions.id
+  ]
   firewall_ids = [hcloud_firewall.web_firewall.id]
 
   labels = {
