@@ -1,6 +1,6 @@
 services:
   oss-projects:
-    image: lucasrod96/oss-projects-hetzner-migration@sha256:89573c206b04b4753f625364525c6243e8cbd7e3a4cc55ab2ad5b7e3f4a22f95
+    image: lucasrod96/oss-projects-hetzner-migration@sha256:ef41d48710660a19afc3d02e39fd5edb6a8d80e6892a2d0c37e0814ce9c2dbb2
     container_name: oss-projects
     ports:
       - "8080:8080"
