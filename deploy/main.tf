@@ -13,9 +13,9 @@ terraform {
 
 provider "hcloud" {}
 
-resource "hcloud_ssh_key" "default" {
-  name       = "oss-projects-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+resource "hcloud_ssh_key" "local" {
+  name       = "local-ssh"
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOvCsJTSBIOMOdOaEQkv52JoaBT5IwtoXLiCILk5A3vF local-ssh"
 }
 
 resource "hcloud_ssh_key" "github_actions" {
@@ -55,7 +55,7 @@ resource "hcloud_server" "web_server" {
   location    = "hil"
 
   ssh_keys = [
-    hcloud_ssh_key.default.id,
+    hcloud_ssh_key.local.id,
     hcloud_ssh_key.github_actions.id
   ]
   firewall_ids = [hcloud_firewall.web_firewall.id]
