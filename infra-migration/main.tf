@@ -13,10 +13,6 @@ terraform {
 
 provider "hcloud" {}
 
-data "http" "current_ip" {
-  url = "https://checkip.amazonaws.com"
-}
-
 resource "hcloud_ssh_key" "default" {
   name       = "oss-projects-key"
   public_key = file("~/.ssh/id_rsa.pub")
@@ -29,12 +25,19 @@ resource "hcloud_firewall" "web_firewall" {
     direction  = "in"
     port       = "22"
     protocol   = "tcp"
-    source_ips = ["${trimspace(data.http.current_ip.response_body)}/32"]
+    source_ips = ["0.0.0.0/0", "::/0"]
   }
 
   rule {
     direction  = "in"
-    port       = "8080"
+    port       = "80"
+    protocol   = "tcp"
+    source_ips = ["0.0.0.0/0", "::/0"]
+  }
+
+  rule {
+    direction  = "in"
+    port       = "443"
     protocol   = "tcp"
     source_ips = ["0.0.0.0/0", "::/0"]
   }
