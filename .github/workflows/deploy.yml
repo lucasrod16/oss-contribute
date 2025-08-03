@@ -38,6 +38,8 @@ jobs:
 
       - name: Deploy
         working-directory: deploy
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         run: just deploy
 
       - name: Create GitHub Release
