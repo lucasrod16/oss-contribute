@@ -32,7 +32,7 @@ const Navbar: React.FC = () => {
 						cursor: "pointer",
 					}}
 				>
-					osscontribute.com
+					osscontribute.dev
 				</Typography>
 			</Toolbar>
 		</AppBar>
