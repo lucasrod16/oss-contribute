@@ -48,7 +48,7 @@ jobs:
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
         run: just deploy
 
-      - name: Create GitHub Release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create ${{ github.ref_name }} --verify-tag --generate-notes
+      # - name: Create GitHub Release
+      #   env:
+      #     GH_TOKEN: ${{ github.token }}
+      #   run: gh release create ${{ github.ref_name }} --verify-tag --generate-notes
