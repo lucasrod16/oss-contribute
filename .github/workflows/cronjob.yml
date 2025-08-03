@@ -1,4 +1,4 @@
-name: Write GitHub Data To Google Cloud Storage
+name: Write GitHub Data To Gist
 
 on:
   schedule:
@@ -7,26 +7,21 @@ on:
 
 permissions:
   contents: read
-  id-token: write
 
 jobs:
-  github-to-gcs:
+  write-to-gist:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Google Cloud Auth
-        uses: google-github-actions/auth@140bb5113ffb6b65a7e9b937a81fa96cf5064462 # v2.1.11
-        with:
-          project_id: "groovy-momentum-434802-g9"
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-
       - name: Run CronJob
         run: go run cmd/cronjob/main.go
+        env:
+          GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
 
   notify-on-failure:
-    needs: github-to-gcs
+    needs: write-to-gist
     runs-on: ubuntu-latest
     if: ${{ !success() }}
     steps:
