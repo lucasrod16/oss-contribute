@@ -1,0 +1,7 @@
+osscontribute.com {
+    reverse_proxy oss-projects:8080
+}
+
+localhost {
+    reverse_proxy oss-projects:8080
+}

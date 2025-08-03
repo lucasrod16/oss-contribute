@@ -22,5 +22,5 @@ fmt:
 build:
     ./build.sh
 
-deploy:
+deploy: init plan apply
     ./deploy.sh

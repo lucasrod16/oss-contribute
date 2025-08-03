@@ -5,3 +5,23 @@ services:
     ports:
       - "8080:8080"
     platform: linux/amd64
+
+  caddy:
+    image: caddy:2.10.0-alpine
+    container_name: caddy
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./conf:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: always
+    depends_on:
+      - oss-projects
+
+volumes:
+  caddy_data:
+  caddy_config:
