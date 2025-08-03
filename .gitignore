@@ -5,7 +5,6 @@ go.work.sum
 .env
 data.json
 tmp
-gha-creds-*.json
 
 # Terraform
 # Local .terraform directories
@@ -45,6 +44,3 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
-
-# uv virtual environment
-**/.venv/*
