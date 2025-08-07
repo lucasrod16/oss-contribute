@@ -1,6 +1,6 @@
 services:
   oss-projects:
-    image: lucasrod96/oss-projects:v0.1.4@sha256:6a69a1f7eed61a6aa2e745ab5bb609c4eda4a292124a0a7609f26619c3c0f87d
+    image: lucasrod96/oss-projects:v0.1.5@sha256:c47f18e194ce13bc5f19cadd9a4d78663ed258a0f695483bf33052db4a04539e
     container_name: oss-projects
     ports:
       - "8080:8080"
