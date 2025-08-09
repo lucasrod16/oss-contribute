@@ -1,6 +1,6 @@
 services:
   oss-projects:
-    image: lucasrod96/oss-projects:v0.1.5@sha256:c47f18e194ce13bc5f19cadd9a4d78663ed258a0f695483bf33052db4a04539e
+    image: lucasrod96/oss-projects:v0.1.6@sha256:30ef1f3a0a57bb417da232c3f5983ae5361569bdab659f4c40f8b1674a6d6408
     container_name: oss-projects
     platform: linux/amd64
   caddy:
